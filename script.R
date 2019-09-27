@@ -1,29 +1,20 @@
 irisCopia <- iris
 
-#armazenar media
-medias <- matrix(nrow = 150, ncol = 2)
-
-for (lin in 1:150) {
-
-  medias[lin,1] <- sum(irisCopia[lin,1:2])/2
-  medias[lin,2] <- sum(irisCopia[lin,3:4])/2
-}
-plot(medias)
-
-
-###################Ligação média e Distância Euclidiana###################
+###################Ligação média e Distância Euclidiana#########################
 #DISTANCIA
-distancia <- dist(medias, diag = TRUE, upper = NULL, method = "euclidean")
+distancia <- dist(irisCopia[,1:4], diag = TRUE, upper = NULL, method = "euclidean")
 
 #DENDOGRAMA
 dendrograma <- hclust(dist(distancia), method="average")
-plot(dendrograma,  xlim = c(1,500))
+
+plot(dendrograma,main = "Dendograma para dataset Iris" ,xlim = c(1,500),
+     xlab="Distância Euclidiana")
 
 
-###################Ligação média e Distância Euclidiana###################
+###################Ligação média e Correlação de Pearson#########################
 #DISTANCIA
-distancia <- dist(medias, diag = TRUE, upper = NULL, method = "pearson")
-
+distancia <- as.dist(1-cor(t(irisCopia[,1:4]), method="pearson"),diag = TRUE, upper = NULL)
 #DENDOGRAMA
 dendrograma <- hclust(dist(distancia), method="average")
-plot(dendrograma,  xlim = c(1,500))
+plot(dendrograma,main = "Dendograma para dataset Iris" ,xlim = c(1,500),
+     xlab="Correlação de Pearson")
